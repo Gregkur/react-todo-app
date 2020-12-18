@@ -9,10 +9,11 @@ export default class TodoList extends Component {
       todos: [],
     };
     this.create = this.create.bind(this);
+    this.delete = this.delete.bind(this);
   }
-  delete(Todo) {
-    this.state.filter((todos) => {
-      return [];
+  delete(id) {
+    this.setState({
+      todos: this.state.todos.filter((t) => t.id !== id),
     });
   }
   create(newTodo) {
@@ -22,7 +23,14 @@ export default class TodoList extends Component {
   }
   render() {
     const todos = this.state.todos.map((todo) => {
-      return <Todo key={todo.id} task={todo.task} />;
+      return (
+        <Todo
+          id={todo.id}
+          key={todo.id}
+          task={todo.task}
+          deleteTodo={this.delete}
+        />
+      );
     });
     return (
       <div>
