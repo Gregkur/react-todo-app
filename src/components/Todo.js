@@ -5,7 +5,7 @@ export default class Todo extends Component {
     super(props);
     this.state = {
       isEditing: false,
-      task: "",
+      task: this.props.task,
     };
     this.handleDelete = this.handleDelete.bind(this);
     this.toggleForm = this.toggleForm.bind(this);
@@ -20,6 +20,9 @@ export default class Todo extends Component {
 
   handleUpdate(e) {
     e.preventDefault();
+    //pass new data to TodoList
+    this.props.updateTodo(this.props.id, this.state.task);
+    this.setState({ isEditing: false });
   }
   handleDelete() {
     this.props.deleteTodo(this.props.id);
@@ -36,7 +39,8 @@ export default class Todo extends Component {
             <input
               type="text"
               value={this.state.task}
-              onChange={handleChange}
+              name="task"
+              onChange={this.handleChange}
             />
             <button>Save</button>
           </form>
