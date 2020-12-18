@@ -1,26 +1,28 @@
 import React, { Component } from "react";
 import NewTodoForm from "./NewTodoForm";
 import Todo from "./Todo";
+import "../style/TodoList.css";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
-export default class TodoList extends Component {
+class TodoList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       todos: [],
     };
     this.create = this.create.bind(this);
-    this.delete = this.delete.bind(this);
+    this.remove = this.remove.bind(this);
     this.update = this.update.bind(this);
-    this.toggleCompleted = this.toggleCompleted.bind(this);
-  }
-  delete(id) {
-    this.setState({
-      todos: this.state.todos.filter((t) => t.id !== id),
-    });
+    this.toggleCompletion = this.toggleCompletion.bind(this);
   }
   create(newTodo) {
     this.setState({
       todos: [...this.state.todos, newTodo],
+    });
+  }
+  remove(id) {
+    this.setState({
+      todos: this.state.todos.filter((t) => t.id !== id),
     });
   }
   update(id, updatedTask) {
@@ -32,7 +34,7 @@ export default class TodoList extends Component {
     });
     this.setState({ todos: updatedTodos });
   }
-  toggleCompleted(id) {
+  toggleCompletion(id) {
     const updatedTodos = this.state.todos.map((todo) => {
       if (todo.id === id) {
         return { ...todo, completed: !todo.completed };
@@ -44,23 +46,31 @@ export default class TodoList extends Component {
   render() {
     const todos = this.state.todos.map((todo) => {
       return (
-        <Todo
-          id={todo.id}
-          key={todo.id}
-          task={todo.task}
-          completed={todo.completed}
-          deleteTodo={this.delete}
-          updateTodo={this.update}
-          toggleTodo={this.toggleCompleted}
-        />
+        <CSSTransition key={todo.id} timeout={500} classNames="todo">
+          <Todo
+            key={todo.id}
+            id={todo.id}
+            task={todo.task}
+            completed={todo.completed}
+            removeTodo={this.remove}
+            updateTodo={this.update}
+            toggleTodo={this.toggleCompletion}
+          />
+        </CSSTransition>
       );
     });
     return (
-      <div>
-        <h1>TodoList</h1>
+      <div className="TodoList">
+        <h1>
+          Get To Work! <span>An Animated Todo List Made With React Hooks.</span>
+        </h1>
         <NewTodoForm createTodo={this.create} />
-        <ul>{todos}</ul>
+
+        <ul>
+          <TransitionGroup className="todo-list">{todos}</TransitionGroup>
+        </ul>
       </div>
     );
   }
 }
+export default TodoList;
