@@ -3,11 +3,17 @@ import NewTodoForm from "./NewTodoForm";
 import Todo from "./Todo";
 
 export default class TodoList extends Component {
-  constructor(params) {
-    super(params);
+  constructor(props) {
+    super(props);
     this.state = {
       todos: [{ task: "Do the laundry" }, { task: "Feed the fish" }],
     };
+    this.create = this.create.bind(this);
+  }
+  create(newTodo) {
+    this.setState({
+      todos: [...this.state.todos, newTodo],
+    });
   }
   render() {
     const todos = this.state.todos.map((todo) => {
@@ -16,7 +22,7 @@ export default class TodoList extends Component {
     return (
       <div>
         <h1>TodoList</h1>
-        <NewTodoForm />
+        <NewTodoForm createTodo={this.create} />
         <ul>{todos}</ul>
       </div>
     );
