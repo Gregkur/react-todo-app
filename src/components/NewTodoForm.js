@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import { v4 as uuid } from "uuid";
 export default class NewTodoForm extends Component {
   constructor(props) {
     super(props);
@@ -7,17 +7,18 @@ export default class NewTodoForm extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-  handleSubmit(evt) {
-    evt.preventDefault();
-    this.props.createTodo(this.state);
-    this.setState({
-      task: "",
-    });
-  }
   handleChange(evt) {
     this.setState({
       [evt.target.name]: evt.target.value,
     });
+  }
+  handleSubmit(evt) {
+    evt.preventDefault();
+    this.props.createTodo({ ...this.state, id: uuid() });
+    this.setState({
+      task: "",
+    });
+    evt.target.reset();
   }
   render() {
     return (

@@ -6,9 +6,14 @@ export default class TodoList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      todos: [{ task: "Do the laundry" }, { task: "Feed the fish" }],
+      todos: [],
     };
     this.create = this.create.bind(this);
+  }
+  delete(Todo) {
+    this.state.filter((todos) => {
+      return [];
+    });
   }
   create(newTodo) {
     this.setState({
@@ -17,7 +22,7 @@ export default class TodoList extends Component {
   }
   render() {
     const todos = this.state.todos.map((todo) => {
-      return <Todo task={todo.task} />;
+      return <Todo key={todo.id} task={todo.task} />;
     });
     return (
       <div>

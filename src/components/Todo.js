@@ -5,7 +5,7 @@ export default class Todo extends Component {
     return (
       <div>
         <button>Edit</button>
-        <button>X</button>
+        <button onClick={this.props.deleteTodo}>X</button>
         <li>{this.props.task}</li>
       </div>
     );
