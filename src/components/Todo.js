@@ -4,7 +4,9 @@ export default class Todo extends Component {
   render() {
     return (
       <div>
-        <h1>TODO</h1>
+        <button>Edit</button>
+        <button>X</button>
+        <li>{this.props.task}</li>
       </div>
     );
   }
